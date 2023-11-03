@@ -1,0 +1,127 @@
+0x01: # cap ID
+  Name: PCI Power Management Capability
+  0x0: # reg offset
+    Name: Power Management Capabilities Register (00h)
+    Width:  4 # reg width in byte
+    0: # Bit field start bit
+      Name: Capability ID
+      HiBit: 7 # Bit field end bit
+    8:
+      Name: Next Capability Pointer
+      HiBit: 15
+    16:
+      Name: Version
+      HiBit:  18
+    19:
+      Name: PME Clock
+      HiBit:  19
+    20:
+      Name: Immediate_Readiness_on_Return_to_D0
+      HiBit:  20
+    21:
+      Name: Device Specific Initialization
+      HiBit:  21
+    22:
+      Name: Aux_Current
+      HiBit:  24
+    25:
+      Name: D1_Support
+      HiBit:  25
+    26:
+      Name: D2_Support
+      HiBit:  26
+    27:
+      Name: PME_Support
+      HiBit:  31
+  4:
+    Name: Power Management Control/Status Register (04h)
+    Width:  3
+  7:
+    Name: Power Management Data Register (07h)
+    Width: 1
+5:
+  Name: MSI Capability
+  0x0: # reg offset
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x2 # reg width in byte
+    0x0: # Bit field start bit
+      Name: Capability ID
+      HiBit: 0x7 # Bit field end bit
+    0x8:
+      Name: Next Capability Pointer
+      HiBit: 0xF
+  0x2:
+    Name: Message Control Register for MSI
+    Width:  2
+  0x4:
+    Name: Message Address Register for MSI
+    Width:  4
+  0x8:
+    Name: Message Upper Address Register for MSI
+    Width:  4
+  0xC:
+    Name: Message Data Register for MSI
+    Width:  2
+  0xE:
+    Name: Extended Message Data Register for MSI
+    Width:  2
+  0x10:
+    Name: Mask Bits Register for MSI
+    Width: 4
+  0x14:
+    Name: Pending Bits Register for MSI
+    Width:  4
+
+0x10: # cap ID
+  Name: PCI Express Capability
+  0x0: # reg offset
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x2 # reg width in byte
+    0x0: # Bit field start bit
+      Name: Capability ID
+      HiBit: 0x7 # Bit field end bit
+    0x8:
+      Name: Next Capability Pointer
+      HiBit: 0xF
+  0x2:
+    Name: PCI Express Capabilities Register (02h)
+    Width:  0x2
+    0x0:
+      Name: Capability Version
+      HiBit:  0x3
+    0x4:
+      Name: Device/Port Type
+      HiBit:  0x7
+    0x8:
+      Name: Slot Implemented
+      HiBit:  0x8
+    0x9:
+      Name: Interrupt Message Number
+      HiBit:  13
+    14:
+      Name: Undefined
+      HiBit:  14
+    15:
+      Name: Fit Mode Supported
+      HiBit:  15
+  0x4:
+    Name: Device Capabilities Register (04h)
+    Width:  0x4
+    0:
+      Name: Max_Payload_Size Supported
+      HiBit: 2
+    3:
+      Name: Phantom Functions Supported
+      HiBit: 4
+    5:
+      Name: Extended Tag Field Supported
+      HiBit:  5
+    6:
+      Name: Endpoint L0s Acceptable Latency
+      HiBit:  8
+    9:
+      Name: Endpoint L1 Acceptable Latency
+      HiBit:  11
+    18:
+      Name: Captured Slot Power Limit Value
+      HiBit: 25

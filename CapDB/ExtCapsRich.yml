@@ -1,0 +1,133 @@
+0x0E:
+  Name: ARI Extended Capability
+  0x0: # reg offset
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x4 # reg width in byte
+    0: # Bit field start bit
+      Name: Capability ID
+      HiBit: 15 # Bit field end bit
+    16: # Bit field start bit
+      Name: Capability Version
+      HiBit: 19
+    20:
+      Name: Next Capability Offset
+      HiBit: 31
+  0x4:
+    Name: ARI Capability Register
+    Width:  2
+    0:
+      Name: MFVC Function Groups Capability (M)
+      HiBit:  0
+    1:
+      Name: ACS Function Groups Capability (A)
+      HiBit:  1
+    2:
+      Name: RsvdP
+      HiBit:  7
+    8:
+      Name: Next Function Number
+      HiBit:  15
+  0x6:
+    Name: ARI Control Register
+    Width:  2
+    0:
+      Name: MFVC Function Groups Enable (M)
+      HiBit:  0
+    1:
+      Name: ACS Function Groups Enable (A)
+      HiBit:  1
+    2:
+      Name: RsvdP
+      HiBit:  3
+    4:
+      Name: Function Group
+      HiBit:  6
+    7:
+      Name: RsvdP
+      HiBit:  15
+
+
+# Data Object exchange Capability
+0x2E:
+  Name: DOE Capability
+  0x0: # reg offset
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x4 # reg width in byte
+    0: # Bit field start bit
+      Name: Capability ID
+      HiBit: 15 # Bit field end bit
+    16: # Bit field start bit
+      Name: Capability Version
+      HiBit: 19
+    20:
+      Name: Next Capability Offset
+      HiBit: 31
+  0x4:
+    Name: DOE Capabilities Register
+    Width:  0x4
+    0:
+      Name: DOE Interrupt Support
+      HiBit: 0
+    1:
+      Name: DOE Interrupt Message Number
+      HiBit: 11
+    12:
+      Name: DOE Attention Mechanism Support
+      HiBit: 12
+    13:
+      Name: DOE Async Message Support
+      HiBit: 13
+    14:
+      Name: Reserved
+      HiBit: 31
+  0x8:
+    Name: DOE Control Register
+    Width:  0x4
+    0:
+      Name: DOE Abort
+      HiBit: 0
+    1:
+      Name: DOE Interrupt Enable
+      HiBit: 1
+    2:
+      Name: DOE Attention Not Needed
+      HiBit: 2
+    3:
+      Name: DOE Async Message Enable
+      HiBit: 3
+    4:
+      Name: Reserved
+      HiBit: 30
+    31:
+      Name: DOE Go
+      HiBit: 31
+  0xC:
+    Name: DOE Status Register
+    Width:  0x4
+    0:
+      Name: DOE Busy
+      HiBit: 0
+    1:
+      Name: DOE Interrupt Status
+      HiBit: 1
+    2:
+      Name: DOE Error
+      HiBit: 2
+    3:
+      Name: DOE Async Message Status
+      HiBit: 3
+    4:
+      Name: DOE At Attention
+      HiBit: 4
+    5:
+      Name: Reserved
+      HiBit: 30
+    31:
+      Name: Data Object Ready
+      HiBit: 31
+  0x10:
+    Name: DOE Write Data Mailbox Register
+    Width:  0x4
+  0x14:
+    Name: DOE Read Data Mailbox Register
+    Width:  0x4

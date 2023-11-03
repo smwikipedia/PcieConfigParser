@@ -1,0 +1,21 @@
+# Data Object exchange Capability
+0x2E:
+  Name: DOE Capability
+  0x0: # reg offset
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x4 # reg width in byte
+  0x4:
+    Name: DOE Capabilities Register
+    Width:  0x4
+  0x8:
+    Name: DOE Control Register
+    Width:  0x4
+  0xC:
+    Name: DOE Status Register
+    Width:  0x4
+  0x10:
+    Name: DOE Write Data Mailbox Register
+    Width:  0x4
+  0x14:
+    Name: DOE Read Data Mailbox Register
+    Width:  0x4
