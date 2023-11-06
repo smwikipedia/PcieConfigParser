@@ -79,8 +79,18 @@ def Get4KDump():
             if (offset == 0xFF0):
                 collect = False
         line = f.readline()
+    print()
+    return
 
-# Little endian
+def GetHeaderType():
+    headerTypeReg = ConfigRead(0xE, 1)
+    headerLayout = GetBitField(headerTypeReg, 0, 6)
+    if (headerLayout == 0):
+        return 0
+    if (headerLayout == 1):
+        return 1
+    print (f"Reserved header layout value: {headerLayout}")
+    sys.exit(1)
 
 
 def ConfigRead(offset, regWidth):  # regWidth in byte
@@ -89,6 +99,7 @@ def ConfigRead(offset, regWidth):  # regWidth in byte
         sys.exit(1)
     Value = 0
     for i in range(regWidth):
+        # Little endian
         Value += (Config4K[offset + i] * (1 << (8 * i)))
     return Value
 
@@ -113,26 +124,24 @@ def ParseSinglePciPcieCap(capsDB, capId, capOffset):
     capObj["Offset"] = f"0x{hex(capOffset)[2:].upper()}"
     regCapOffsets = capObj.keys()
     for regCapOffset in regCapOffsets:
-        if (type(regCapOffset) is not int):
+        if (type(regCapOffset) is not int): # Name, Width
             continue
         regObj = capObj[regCapOffset]
         regWidthNum = capObj[regCapOffset]["Width"]
         valWidth = 2 * regWidthNum  # a byte has two hex digit
         regOffset = capOffset + regCapOffset
         regVal = ConfigRead(regOffset, regWidthNum)
-        # regObj["Value"] = f"{bin(regVal)[2:]:0>{valWidth*4}}"
         regObj["Value"] = f"0x{hex(regVal)[2:].upper():0>{valWidth}}"
         # If register fields are specified, just continue to parse it.
         for fieldKey in regObj.keys():
-            if (type(fieldKey) is int):
-                fieldObj = regObj[fieldKey]
-                lowBitNum = fieldKey
-                hiBitNum = fieldObj["HiBit"]
-                fieldVal = GetBitField(regVal, lowBitNum, hiBitNum)
-                fieldValWidth = (hiBitNum - lowBitNum + 1 +
-                                 3) // 4  # integer division
-                fieldObj["Value"] = f"0x{hex(fieldVal)[2:].upper():0>{fieldValWidth}}"
-
+            if (type(fieldKey) is not int):
+                continue
+            fieldObj = regObj[fieldKey]
+            lowBitNum = fieldKey
+            hiBitNum = fieldObj["HiBit"]
+            fieldVal = GetBitField(regVal, lowBitNum, hiBitNum)
+            fieldValWidth = (hiBitNum - lowBitNum + 1 + 3) // 4  # integer division
+            fieldObj["Value"] = f"0x{hex(fieldVal)[2:].upper():0>{fieldValWidth}}"
 
 def ParsePciCap(capsDB):
     '''
@@ -141,12 +150,14 @@ def ParsePciCap(capsDB):
     [15:8] Next Cap Pointer
     '''
     print("PCI Capabilities:")
+    print("-----------------")
     capOffset = ConfigRead(0x34, 1)
     while (capOffset):
         capId = ConfigRead(capOffset, 1)
-        print(f"{hex(capId).upper()[2:]:0>2}h @ {hex(capOffset).upper()[2:]:0>2}h")
+        print(f"  {hex(capId).upper()[2:]:0>2}h @ {hex(capOffset).upper()[2:]:0>2}h")
         ParseSinglePciPcieCap(capsDB, capId, capOffset)
         capOffset = ConfigRead(capOffset + 1, 1)
+    print()
     return
 
 
@@ -157,18 +168,17 @@ def ParsePcieExtendedCap(extCapsDB):
     [19:16] Cap Ver.
     [31: 20] Next Cap Offset
     '''
-    print("PCIe Capabilities:")
+    print("PCIe Extended Capabilities:")
+    print("---------------------------")
     capOffset = 0x100
-    while True:
+    while capOffset:
         data = ConfigRead(capOffset, 4)
         capId = GetBitField(data, 0, 15)
         capVer = GetBitField(data, 16, 19)
-        print(
-            f"{hex(capId).upper()[2:]:0>4}h of v{hex(capVer).upper()[2:]} @ {hex(capOffset).upper()[2:]:0>3}h")
+        print(f"  {hex(capId).upper()[2:]:0>4}h of v{hex(capVer).upper()[2:]} @ {hex(capOffset).upper()[2:]:0>3}h")
         ParseSinglePciPcieCap(extCapsDB, capId, capOffset)
         capOffset = GetBitField(data, 20, 31)
-        if (capOffset == 0):
-            break
+    print()
     return
 
 
@@ -182,28 +192,28 @@ def LoadRegTemplate(capTemplateFile):
     return capsDB
 
 
-def DumpCapsDbWithValue(capsDB, capTemplateFile):
+def DumpResultYaml(yamlDB, dumpFileName):
     timestamp = time.strftime("_%Y%m%d-%H%M%S")
-    dumpFileName = Path(capTemplateFile).stem
-    dumpFileSuffix = capTemplateFile[capTemplateFile.rfind("."):]
-    dumpFileName = "Result." + dumpFileName + timestamp + dumpFileSuffix
+    dumpFileName = "Result." + dumpFileName + timestamp + ".yml"
     with open(dumpFileName, 'w', encoding='utf8') as f:
-        yaml.dump(capsDB, f)
+        yaml.dump(yamlDB, f)
 
 
-def ParsePcie():
+def ParseConfig():
+    if (args.header):
+        headersDB = LoadRegTemplate("ConfigDB/Headers.yml")
+        ParseHeader(headersDB)
+        DumpResultYaml(headersDB, "Header")
+        PrintHeader01(headersDB)
     if (args.cap):
-        capsDB = LoadRegTemplate(args.cap)
+        capsDB = LoadRegTemplate("ConfigDB/Caps.yml")
         ParsePciCap(capsDB)
-        DumpCapsDbWithValue(capsDB, args.cap)
-        print()
+        DumpResultYaml(capsDB, "Caps")
         PrintCaps(capsDB)
-    print()
     if (args.extcap):
-        extCapsDB = LoadRegTemplate (args.extcap)
+        extCapsDB = LoadRegTemplate ("ConfigDB/ExtCaps.yml")
         ParsePcieExtendedCap(extCapsDB)    
-        DumpCapsDbWithValue(extCapsDB, args.extcap)
-        print()        
+        DumpResultYaml(extCapsDB, "ExtCaps")
         PrintCaps(extCapsDB)
     return
 
@@ -217,7 +227,7 @@ def BitMarks(bitNum):
 
 
 def Cap(capId, capName, capOffset):
-    print(f"[0x{hex(capId)[2:].upper():0>3}: {capName} @ {capOffset}]")
+    print(f"[{hex(capId)[2:].upper():0>4}h: {capName} @ {capOffset}]")
 
 def Reg(regName, regOffset, regValue):
     print(f"[{hex(regOffset)[2:].upper():0>3}h] {regName} @ 0x{hex(regOffset)[2:].upper()} = 0x{hex(regValue)[2:].upper()}")
@@ -284,6 +294,8 @@ def PrintRegFields(capId, capObj):
         regVal = int(regObj["Value"], 16)
         print("  ", end="")
         Reg(regName, regCapOffset, regVal)
+        if (not args.field):
+            continue
         for fieldKey in regObj.keys():
             if (type(fieldKey) is int):
                 fieldObj = regObj[fieldKey]
@@ -299,20 +311,63 @@ def PrintCaps(capsDB):
     for capId in capsDB.keys():
         capObj = capsDB[capId]
         capName = capObj["Name"]
-        if ("Offset" in capObj.keys()):
-            PrintCapPretty(capId, capObj)
+        if ("Offset" in capObj.keys()): # cap exists
+            if (args.pretty):
+                PrintCapPretty(capId, capObj)
             PrintRegFields(capId, capObj)
         else:
             print (f"Cap Not found: {capName}")
+        print()
+    print()
+    return
+
+def ParseHeader01(headerObj):
+    for regOffset in headerObj.keys():
+        if(type(regOffset) is not int):
+            continue
+        regObj = headerObj[regOffset]
+        regVal = ConfigRead(regOffset, regObj["Width"])
+        regObj["Value"] = regVal
+    return
+
+def ParseHeader(headersDB):
+    headerType = GetHeaderType()
+    if(headerType == 0):
+        print("Type 0 Header:")
+        ParseHeader01(headersDB[0])
+    if(headerType == 1):
+        print("Type 1 Header:")
+        ParseHeader01(headersDB[1])
+    print("--------------")
+    return
+
+def PrintHeader(headerObj):
+    for regOffset in headerObj.keys():
+        if (type(regOffset) is not int):
+            continue
+        print(f"{str.rjust(hex(headerObj[regOffset]["Value"])[2:], 8)}h @ {hex(regOffset)} {headerObj[regOffset]["Name"]}")
+    return
+
+def PrintHeader01(headersDB):
+    headerType = GetHeaderType()
+    if(headerType == 0):
+        PrintHeader(headersDB[0])
+    if(headerType == 1):
+        PrintHeader(headersDB[1])
+    print()
     return
 
 
 def ParseArgs():
     global parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--cap", help="Capability schema YAML")
-    parser.add_argument("-ec", "--extcap", help="Extended capability schema YAML")
+    parser.add_argument("-c", "--cap", action="store_true", help="Parse capability")
+    parser.add_argument("-ec", "--extcap", action="store_true", help="Parse extended capability")
+    parser.add_argument("-f", "--field", action="store_true", help="Parse detailed fields")
+    parser.add_argument("-p", "--pretty", action="store_true", help="Pretty print the register")
     parser.add_argument("-d", "--dump", help="Dump file")
+    parser.add_argument("--header", action="store_true", help="Parse header")
+
     global args
     args = parser.parse_args()
 
@@ -322,5 +377,5 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit(1)
     Get4KDump()
-    ParsePcie()
+    ParseConfig()
     sys.exit(0)

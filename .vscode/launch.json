@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["-d", "dump.txt", "-ec", "CapDB/ExtCapsSlim.yml"]
+            "args": ["-d", "dump.txt", "--header", "-c", "-ec", "-f", "-p"]
         }
     ]
 }

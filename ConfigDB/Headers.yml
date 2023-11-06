@@ -1,0 +1,28 @@
+0: # header type number
+  Name: Type 0 Header
+  0x0:
+    Name: Vendor ID
+    Width:  2
+  0x2:
+    Name: Device ID
+    Width:  2
+  0x4:
+    Name: Command
+    Width:  2
+  0x6:
+    Name: Status
+    Width:  2
+  0x8:
+    Name: Revision ID
+    Width:  1
+  0x9:
+    Name: Class Code
+    Width:  3
+1:
+  Name: Type 1 Header
+  0x0:
+    Name: Vendor ID
+    Width:  2
+  0x2:
+    Name: Device ID
+    Width:  2
