@@ -346,7 +346,7 @@ def PrintHeader(headerObj):
     for regOffset in headerObj.keys():
         if (type(regOffset) is not int):
             continue
-        print(f"{str.rjust(hex(headerObj[regOffset]["Value"])[2:], 8)}h @ {hex(regOffset)} {headerObj[regOffset]["Name"]}")
+        print(f"{str.rjust(hex(headerObj[regOffset]['Value'])[2:], 8)}h @ {hex(regOffset)} {headerObj[regOffset]['Name']}")
     return
 
 def PrintHeader01(headersDB):
