@@ -1,9 +1,8 @@
 '''
 A script to parse the 4KB configration space dump of a PCIe device.
 User need to first obtain a dump of the 4KB configuration space.
-And then create a yaml file to specify the capabilities of interest.
+And then create a yaml file to specify the registers of interest.
 The script will use the yaml to search and parse the PCIe config space.
-Currently, only capabilities and extended capabilities can be parsed.
 
 Copyright (c) 2023-2024 Ming Shao (smwikipedia@163.com)
 
