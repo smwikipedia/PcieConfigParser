@@ -136,7 +136,7 @@
     Name: VF DEvice ID (RO)
     Width:  2
   0x1C:
-    Name: Supported PAge Size (RW)
+    Name: Supported Page Size (RW)
     Width:  4
   0x20:
     Name: System Page Size (RW)
