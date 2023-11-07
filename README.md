@@ -81,17 +81,17 @@ And it will print register values and field values.
 Such as:
 
 ```
-[000Eh: ARI Extended Capability @ 0x140]
-  [000h] PCI Express Capability List Register (00h) @ 0x0 = 0x1501000E
+[000Eh] ARI Extended Capability @ 0x140
+  [000h] PCI Express Capability List Register (00h) = 0x1501000E
     [15:00] - Capability ID: 0x000E
     [19:16] - Capability Version: 0x1
     [31:20] - Next Capability Offset: 0x150
-  [004h] ARI Capability Register @ 0x4 = 0x0
+  [004h] ARI Capability Register = 0x0
     [00:00] - MFVC Function Groups Capability (M): 0x0
     [01:01] - ACS Function Groups Capability (A): 0x0
     [07:02] - RsvdP: 0x00
     [15:08] - Next Function Number: 0x00
-  [006h] ARI Control Register @ 0x6 = 0x0
+  [006h] ARI Control Register = 0x0
     [00:00] - MFVC Function Groups Enable (M): 0x0
     [01:01] - ACS Function Groups Enable (A): 0x0
     [03:02] - RsvdP: 0x0
@@ -103,19 +103,19 @@ And it can also print the register values in a pretty format with `-p` option.
 Such as:
 
 ```
-[000Eh: ARI Extended Capability @ 0x140]
+[000Eh] ARI Extended Capability @ 0x140
 ----------------------------------------
-[000h] PCI Express Capability List Register (00h) @ 0x0 = 0x1501000E
+[000h] PCI Express Capability List Register (00h) = 0x1501000E
   31  30  29  28  27  26  25  24  23  22  21  20  19  18  17  16  15  14  13  12  11  10  9   8   7   6   5   4   3   2   1   0
 ---------------------------------------------------------------------------------------------------------------------------------
 | 0 | 0 | 0 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 |
 ---------------------------------------------------------------------------------------------------------------------------------
-[004h] ARI Capability Register @ 0x4 = 0x0
+[004h] ARI Capability Register = 0x0
   15  14  13  12  11  10  9   8   7   6   5   4   3   2   1   0
 -----------------------------------------------------------------
 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 -----------------------------------------------------------------
-[006h] ARI Control Register @ 0x6 = 0x0
+[006h] ARI Control Register = 0x0
   15  14  13  12  11  10  9   8   7   6   5   4   3   2   1   0
 -----------------------------------------------------------------
 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
