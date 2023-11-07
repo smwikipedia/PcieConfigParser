@@ -6,7 +6,7 @@
 A script to parse the 4KB configration space dump of a PCIe device.
 
 ```
-usage: PcieParser.py [-h] [-c] [-ec] [-f] [-p] [-d DUMP] [--header]
+usage: PcieParser.py [-h] [-c] [-ec] [-f] [-p] [-d DUMP] [--header] [-r]
 
 options:
   -h, --help            show this help message and exit
@@ -16,6 +16,7 @@ options:
   -p, --pretty          Pretty print the register
   -d DUMP, --dump DUMP  Dump file
   --header              Parse header
+  -r, --raw             Output raw 4K config
 ```
 
 ## The dump file
