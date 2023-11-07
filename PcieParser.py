@@ -228,10 +228,10 @@ def BitMarks(bitNum):
 
 
 def Cap(capId, capName, capOffset):
-    print(f"[{hex(capId)[2:].upper():0>4}h: {capName} @ {capOffset}]")
+    print(f"[{hex(capId)[2:].upper():0>4}h] {capName} @ {capOffset}")
 
 def Reg(regName, regOffset, regValue):
-    print(f"[{hex(regOffset)[2:].upper():0>3}h] {regName} @ 0x{hex(regOffset)[2:].upper()} = 0x{hex(regValue)[2:].upper()}")
+    print(f"[{hex(regOffset)[2:].upper():0>3}h] {regName} = 0x{hex(regValue)[2:].upper()}")
 
 def Field(fieldName, lowBitNum, hiBitNum, fieldVal):
     fieldValWidth = (hiBitNum - lowBitNum + 1 + 3) // 4  # integer division
