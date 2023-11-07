@@ -54,7 +54,8 @@ reByte = r"(\s[a-fA-F0-9]{2})"
 
 
 def Get4KDump():
-    print("Raw dump:")
+    if (args.raw):
+        print("Raw dump:")
     hexDumpFile = args.dump
     f = open(hexDumpFile, "r")
     line = f.readline()
@@ -71,7 +72,8 @@ def Get4KDump():
                     print(f"Bad dump at {offset}, expected {expectedOffset}")
                     sys.exit(1)
                 dumpLine = m.groups()[1]
-                print(f"{hex(offset).upper()[2:]:0>8}: {dumpLine}")
+                if (args.raw):
+                    print(f"{hex(offset).upper()[2:]:0>8}: {dumpLine}")
                 dumpLine = dumpLine.replace("-", " ")
                 dumpBytes = re.findall(reByte, dumpLine)
                 Config4K.extend([int(x, 16) for x in dumpBytes])
@@ -367,6 +369,7 @@ def ParseArgs():
     parser.add_argument("-p", "--pretty", action="store_true", help="Pretty print the register")
     parser.add_argument("-d", "--dump", help="Dump file")
     parser.add_argument("--header", action="store_true", help="Parse header")
+    parser.add_argument("-r", "--raw", action="store_true", help="Output raw 4K config")
 
     global args
     args = parser.parse_args()
