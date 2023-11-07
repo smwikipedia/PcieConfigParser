@@ -362,12 +362,12 @@ def PrintHeader01(headersDB):
 def ParseArgs():
     global parser
     parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dump", help="Dump file")
+    parser.add_argument("--header", action="store_true", help="Parse header")
     parser.add_argument("-c", "--cap", action="store_true", help="Parse capability")
     parser.add_argument("-ec", "--extcap", action="store_true", help="Parse extended capability")
     parser.add_argument("-f", "--field", action="store_true", help="Parse detailed fields")
     parser.add_argument("-p", "--pretty", action="store_true", help="Pretty print the register")
-    parser.add_argument("-d", "--dump", help="Dump file")
-    parser.add_argument("--header", action="store_true", help="Parse header")
     parser.add_argument("-r", "--raw", action="store_true", help="Output raw 4K config")
 
     global args
