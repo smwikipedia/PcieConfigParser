@@ -155,7 +155,10 @@ def ParsePciCap(capsDB):
     capOffset = ConfigRead(0x34, 1)
     while (capOffset):
         capId = ConfigRead(capOffset, 1)
-        print(f"  {hex(capId).upper()[2:]:0>2}h @ {hex(capOffset).upper()[2:]:0>2}h")
+        capName = "Not found in ConfigDB/Caps.yml"
+        if (capId in capsDB.keys()):
+            capName = capsDB[capId]["Name"]
+        print(f"  {hex(capId).upper()[2:]:0>2}h @ {hex(capOffset).upper()[2:]:0>2}h: {capName}")
         ParseSinglePciPcieCap(capsDB, capId, capOffset)
         capOffset = ConfigRead(capOffset + 1, 1)
     print()
@@ -176,7 +179,10 @@ def ParsePcieExtendedCap(extCapsDB):
         data = ConfigRead(capOffset, 4)
         capId = GetBitField(data, 0, 15)
         capVer = GetBitField(data, 16, 19)
-        print(f"  {hex(capId).upper()[2:]:0>4}h of v{hex(capVer).upper()[2:]} @ {hex(capOffset).upper()[2:]:0>3}h")
+        capName = "Not found in ConfigDB/ExtCaps.yml"
+        if (capId in extCapsDB.keys()):
+            capName = extCapsDB[capId]["Name"]
+        print(f"  {hex(capId).upper()[2:]:0>4}h of v{hex(capVer).upper()[2:]} @ {hex(capOffset).upper()[2:]:0>3}h: {capName}")
         ParseSinglePciPcieCap(extCapsDB, capId, capOffset)
         capOffset = GetBitField(data, 20, 31)
     print()
