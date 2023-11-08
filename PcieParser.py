@@ -210,12 +210,12 @@ def ParseConfig():
         capsDB = LoadRegTemplate("ConfigDB/Caps.yml")
         ParsePciCap(capsDB)
         DumpResultYaml(capsDB, "Caps")
-        PrintCaps(capsDB)
+        PrintCaps(capsDB, args.cid)
     if (args.extcap):
         extCapsDB = LoadRegTemplate ("ConfigDB/ExtCaps.yml")
         ParsePcieExtendedCap(extCapsDB)    
         DumpResultYaml(extCapsDB, "ExtCaps")
-        PrintCaps(extCapsDB)
+        PrintCaps(extCapsDB, args.ecid)
     return
 
 
@@ -308,11 +308,13 @@ def PrintRegFields(capId, capObj):
                 Field (fieldName, lowBitNum, hiBitNum, fieldVal)
 
 
-def PrintCaps(capsDB):
+def PrintCaps(capsDB, targetCapId):
     for capId in capsDB.keys():
         capObj = capsDB[capId]
         capName = capObj["Name"]
         if ("Offset" in capObj.keys()): # cap exists
+            if ((args.cid or args.ecid) and capId != targetCapId):
+                continue
             if (args.pretty):
                 PrintCapPretty(capId, capObj)
             PrintRegFields(capId, capObj)
@@ -369,6 +371,8 @@ def ParseArgs():
     parser.add_argument("-f", "--field", action="store_true", help="Parse detailed fields")
     parser.add_argument("-p", "--pretty", action="store_true", help="Pretty print the register")
     parser.add_argument("-r", "--raw", action="store_true", help="Output raw 4K config")
+    parser.add_argument("-cid",  type=int, help="The target capability ID in decimal")
+    parser.add_argument("-ecid", type=int, help="The target extended capability ID in decimal")
 
     global args
     args = parser.parse_args()
