@@ -6,9 +6,9 @@
 A script to parse the 4KB configration space dump of a PCIe device.
 
 ```
-usage: PcieParser.py [-h] [-d DUMP] [--header] [-c] [-ec] [-f] [-p] [-r]
+usage: PcieParser.py [-h] [-d DUMP] [--header] [-c] [-ec] [-f] [-p] [-r] [-cid CID] [-ecid ECID]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   -d DUMP, --dump DUMP  Dump file
   --header              Parse header
@@ -17,6 +17,8 @@ options:
   -f, --field           Parse detailed fields
   -p, --pretty          Pretty print the register
   -r, --raw             Output raw 4K config
+  -cid CID              The target capability ID in decimal
+  -ecid ECID            The target extended capability ID in decimal
 ```
 
 ## The dump file
