@@ -376,6 +376,7 @@ def ParseArgs():
 if __name__ == "__main__":
     ParseArgs()
     if(args.dump is None):
+        print("\nDump file missing!\n")
         parser.print_help()
         sys.exit(1)
     Get4KDump()
