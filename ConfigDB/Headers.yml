@@ -18,6 +18,69 @@
   0x9:
     Name: Class Code
     Width:  3
+  0xC:
+    Name: Cache Line Size
+    Width:  1
+  0xD:
+    Name: Latency Timer
+    Width:  1
+  0xE:
+    Name: Header Type
+    Width:  1
+  0xF:
+    Name: BIST
+    Width:  1
+  0x10:
+    Name: BAR 0
+    Width:  4
+  0x14:
+    Name: BAR 1
+    Width:  4
+  0x18:
+    Name: BAR 2
+    Width:  4
+  0x1C:
+    Name: BAR 3
+    Width:  4
+  0x20:
+    Name: BAR 4
+    Width:  4
+  0x24:
+    Name: BAR 5
+    Width:  4
+  0x28:
+    Name: Cardbus CIS Pointer
+    Width:  4
+  0x2C:
+    Name: Subsystem Vendor ID
+    Width:  2
+  0x2E:
+    Name: Subsystem ID
+    Width:  2
+  0x30:
+    Name: Expansion ROM Base Address
+    Width:  4
+  0x34:
+    Name: Capabilities Pointer
+    Width:  1
+  0x35:
+    Name: Rsvd
+    Width:  3
+  0x38:
+    Name: Rsvd
+    Width:  4
+  0x3C:
+    Name: Interrupt Line
+    Width:  1
+  0x3D:
+    Name: Interrupt Pin
+    Width:  1
+  0x3E:
+    Name: Min_Gnt
+    Width:  1
+  0x3F:
+    Name: Max_Lat
+    Width:  1
 1:
   Name: Type 1 Header
   0x0:
@@ -26,3 +89,93 @@
   0x2:
     Name: Device ID
     Width:  2
+  0x4:
+    Name: Command
+    Width:  2
+  0x6:
+    Name: Status
+    Width:  2
+  0x8:
+    Name: Revision ID
+    Width:  1
+  0x9:
+    Name: Class Code
+    Width:  3
+  0xC:
+    Name: Cache Line Size
+    Width:  1
+  0xD:
+    Name: Latency Timer
+    Width:  1
+  0xE:
+    Name: Header Type
+    Width:  1
+  0xF:
+    Name: BIST
+    Width:  1
+  0x10:
+    Name: BAR 0
+    Width:  4
+  0x14:
+    Name: BAR 1
+    Width:  4
+  0x18:
+    Name: Primary Bus Number
+    Width:  1
+  0x19:
+    Name: Secondary Bus Number
+    Width:  1
+  0x1A:
+    Name: Subordinate Bus Number
+    Width:  1
+  0x1B:
+    Name: Secondary Latency Timer
+    Width:  1
+  0x1C:
+    Name: I/O Base
+    Width:  1
+  0x1D:
+    Name: I/O Limit
+    Width:  1
+  0x1E:
+    Name: Secondary Status
+    Width:  2
+  0x20:
+    Name: Memory Base
+    Width:  2
+  0x22:
+    Name: Memory Limit
+    Width:  2
+  0x24:
+    Name: Prefetchable Memory Base
+    Width:  2
+  0x26:
+    Name: Prefetchable Memory Limit
+    Width:  2
+  0x28:
+    Name: Prefetchable Base Upper 32 Bits
+    Width:  4
+  0x2C:
+    Name: Prefetchable Limit Upper 32 Bits
+    Width:  4
+  0x30:
+    Name: I/O Base Upper 16 Bits
+    Width:  2
+  0x32:
+    Name: I/O Base Limit 16 Bits
+    Width:  2
+  0x34:
+    Name: Capabilities Pointer
+    Width:  1
+  0x35:
+    Name: Rsvd
+    Width:  3
+  0x38:
+    Name: Expansion ROM Base Address
+    Width:  4
+  0x3C:
+    Name: Interrupt Line
+    Width:  1
+  0x3D:
+    Name: Interrupt Pin
+    Width:  1
