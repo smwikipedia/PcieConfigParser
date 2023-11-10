@@ -207,7 +207,7 @@ def DumpResultYaml(yamlDB, dumpFileName):
 
 
 def ParseConfig():
-    if (args.header):
+    if (args.hdr):
         headersDB = LoadRegTemplate("ConfigDB/Headers.yml")
         ParseHeader(headersDB)
         DumpResultYaml(headersDB, "Header")
@@ -371,7 +371,7 @@ def ParseArgs():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dump", help="Dump file")
-    parser.add_argument("--header", action="store_true", help="Parse header")
+    parser.add_argument("-hdr", action="store_true", help="Parse header")
     parser.add_argument("-c", "--cap", action="store_true", help="Parse capability")
     parser.add_argument("-ec", "--extcap", action="store_true", help="Parse extended capability")
     parser.add_argument("-f", "--field", action="store_true", help="Parse detailed fields")
