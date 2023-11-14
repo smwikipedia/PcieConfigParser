@@ -136,3 +136,47 @@
     30:
       Name: RsvdP
       HiBit:  31
+0x11:
+  Name: MSI-X Capability
+  0x0:
+    Name: PCI Express Capability List Register (00h)
+    Width:  0x2
+    0x0:
+      Name: Capability ID
+      HiBit: 0x7
+    0x8:
+      Name: Next Capability Pointer
+      HiBit: 0xF
+  0x2:
+    Name: Message Control
+    Width:  0x2
+    0x0:
+      Name: Table Size
+      HiBit:  10
+    11:
+      Name: Rsvd
+      HiBit:  13
+    14:
+      Name: Function Mask
+      HiBit:  14
+    15:
+      Name: MSI-X Enable
+      HiBit:  15
+  0x4:
+    Name: Table BIR + Table Offset
+    Width:  4
+    0x0:
+      Name: Table BIR
+      HiBit:  2
+    0x3:
+      Name: Table Offset
+      HiBit:  31
+  0x8:
+    Name: PBA BIR + PBA Offset
+    Width:  4
+    0x0:
+      Name: PBA BIR
+      HiBit:  2
+    0x3:
+      Name: PBA Offset
+      HiBit:  31
