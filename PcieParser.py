@@ -116,19 +116,14 @@ def CapRecognized(capsDB, capId):
     capIds = capsDB.keys()
     return capId in capIds
 
-
-def ParseSinglePciPcieCap(capsDB, capId, capOffset):
-    if (capId not in capsDB.keys()):
-        return
-    # If use yaml list, we can't get the cap object so easily as below
-    capObj = capsDB[capId]
+def ParseCapRegisters(capObj, capOffset):
     capObj["Offset"] = f"0x{hex(capOffset)[2:].upper()}"
     regCapOffsets = capObj.keys()
     for regCapOffset in regCapOffsets:
         if (type(regCapOffset) is not int): # Name, Width
             continue
         regObj = capObj[regCapOffset]
-        regWidthNum = capObj[regCapOffset]["Width"]
+        regWidthNum = regObj["Width"]
         valWidth = 2 * regWidthNum  # a byte has two hex digit
         regOffset = capOffset + regCapOffset
         regVal = ConfigRead(regOffset, regWidthNum)
@@ -143,6 +138,25 @@ def ParseSinglePciPcieCap(capsDB, capId, capOffset):
             fieldVal = GetBitField(regVal, lowBitNum, hiBitNum)
             fieldValWidth = (hiBitNum - lowBitNum + 1 + 3) // 4  # integer division
             fieldObj["Value"] = f"0x{hex(fieldVal)[2:].upper():0>{fieldValWidth}}"
+
+def ParseSinglePciPcieCap(capsDB, capId, capOffset):
+    if (capId not in capsDB.keys()):
+        return
+    # If use yaml list, we can't get the cap object so easily as below
+    if (capId != 0x23): # non-DVSEC
+        capObj = capsDB[capId]
+        ParseCapRegisters(capObj, capOffset)
+    if (capId == 0x23): # DVSEC
+        capObj = capsDB[capId]
+        dvsecVendorId = ConfigRead (capOffset + 0x4, 2)
+        dvsecVendorIds = capObj.keys()
+        if ( dvsecVendorId in dvsecVendorIds):
+            dvsecId = ConfigRead (capOffset + 0x8, 2)
+            dvsecIds = capObj[dvsecVendorId].keys()
+            if (dvsecId in dvsecIds):
+                dvsecObj = capObj[dvsecVendorId][dvsecId]
+                ParseCapRegisters(dvsecObj, capOffset)
+    pass
 
 def ParsePciCap(capsDB):
     '''
@@ -203,7 +217,7 @@ def DumpResultYaml(yamlDB, dumpFileName):
     timestamp = time.strftime("_%Y%m%d-%H%M%S")
     dumpFileName = "Result." + dumpFileName + timestamp + ".yml"
     with open(dumpFileName, 'w', encoding='utf8') as f:
-        yaml.dump(yamlDB, f)
+        yaml.dump(yamlDB, f, sort_keys=False)
 
 
 def ParseConfig():
@@ -324,6 +338,22 @@ def PrintCaps(capsDB, targetCapId):
             if (args.pretty):
                 PrintCapPretty(capId, capObj)
             PrintRegFields(capId, capObj)
+        elif (capId == 0x23): # DVSEC
+            vendorIds = capObj.keys()
+            for vendorId in vendorIds:
+                if (type(vendorId) is not int):
+                    continue
+                dvsecIds = capObj[vendorId].keys()
+                for dvsecId in dvsecIds:
+                    if (type(dvsecId) is not int):
+                        continue
+                    dvsecObj = capObj[vendorId][dvsecId]
+                    if ("Offset" in dvsecObj.keys()):
+                        print (f"DVSEC found: {dvsecObj['Name']}")
+                        if (args.pretty):
+                            PrintCapPretty(dvsecId, dvsecObj)
+                        PrintRegFields(dvsecId, dvsecObj)
+                        print ()
         else:
             print (f"Cap Not found: {capName}")
         print()

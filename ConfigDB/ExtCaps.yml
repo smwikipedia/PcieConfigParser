@@ -47,6 +47,8 @@
   0x8:
     Name: Serial Number Register (Upper DW)
     Width:  4
+0x0B:
+  Name: Vendor-Specific Extended Capability
 0x0E:
   Name: ARI Extended Capability
   0x0: # reg offset
@@ -162,6 +164,76 @@
   0x3C:
     Name: VF Migration State Array (RO)
     Width:  4
+0x23:
+  Name: Designated Vendor-Specific Extended Capability
+  0x1E98: # Vendor ID
+    Name: CXL DVSECs
+    0x0:  # DVSEC ID
+      Name: PCIe DVSEC for CXL Device
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
+    0x3:
+      Name: CXL 2.0 Extensions DVSEC
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
+    0x4:
+      Name: GPF DVSEC for CXL Port
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
+    0x7:
+      Name: Flex Bus Port DVSEC
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
+    0x8:
+      Name: Register Locator DVSEC
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
+    0x9:
+      Name: MLD DVSEC
+      0x0: # DVSEC Reg Offset
+        Name: PCI Express Extended Capablility Header
+        Width:  4
+      0x4: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header1
+        Width:  4
+      0x8: # DVSEC Reg Offset
+        Name: Designated Vendor-Specific Header2
+        Width:  2
 
 # Data Object exchange Capability
 0x2E:

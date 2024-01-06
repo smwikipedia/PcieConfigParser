@@ -71,6 +71,8 @@
   0x14:
     Name: Pending Bits Register for MSI
     Width:  4
+0x09:
+  Name: Vendor-Specific Capability
 0x10:
   Name: PCI Express Capability
   0x0:
