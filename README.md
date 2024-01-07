@@ -5,6 +5,16 @@
 ## Synopsis
 A script to parse the 4KB configration space dump of a PCIe device.
 
+The script works in a **data-driven** paradigm. It can find capabilities or
+extended capabilities based on the schema defined in PCIe spec. But it won't further
+parse those capabilities unless you provide enough details in the corresponding yaml
+files.
+
+For example, All DVSECs have an extended capability ID of 0x23. The script will report
+all the DVSECs as 0x23 extended capabilities. But it won't parse further details unless
+you specify more info of a specific DVSEC in the yaml and place the details under
+corresponsding DVSEC IDs.
+
 ```
 usage: PcieParser.py [-h] [-d DUMP] [-hdr] [-c] [-ec] [-f] [-p] [-r] [-cid CID] [-ecid ECID]
 
