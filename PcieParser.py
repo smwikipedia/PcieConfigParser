@@ -342,6 +342,7 @@ def PrintCaps(capsDB, targetCapId):
             if (args.pretty):
                 PrintCapPretty(capId, capObj)
             PrintRegFields(capId, capObj)
+            print()
         elif (capId == 0x23): # DVSEC
             vendorIds = capObj.keys()
             for vendorId in vendorIds:
@@ -359,9 +360,8 @@ def PrintCaps(capsDB, targetCapId):
                         PrintRegFields(dvsecId, dvsecObj)
                         print ()
         else:
-            print (f"Cap Not found: {capName}")
-        print()
-    print()
+            print(f"Cap not found: {capName}")
+            print()
     return
 
 def ParseHeader01(headerObj):
