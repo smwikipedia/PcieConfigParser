@@ -212,10 +212,14 @@ def LoadRegTemplate(capTemplateFile):
             sys.exit(1)
     return capsDB
 
+def hexint_presenter(dumper, data):
+    # ref: https://stackoverflow.com/a/42504639/264052
+    return dumper.represent_int(hex(data))
 
 def DumpResultYaml(yamlDB, dumpFileName):
     timestamp = time.strftime("_%Y%m%d-%H%M%S")
     dumpFileName = "Result." + dumpFileName + timestamp + ".yml"
+    yaml.add_representer(int, hexint_presenter)
     with open(dumpFileName, 'w', encoding='utf8') as f:
         yaml.dump(yamlDB, f, sort_keys=False)
 
