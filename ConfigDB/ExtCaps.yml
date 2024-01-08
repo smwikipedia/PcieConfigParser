@@ -49,6 +49,9 @@
     Width:  4
 0x0B:
   Name: Vendor-Specific Extended Capability
+  0x1DEF: # Vendor ID
+    Name: Ampere Computing, LLC
+    # VSEC IDs goes here
 0x0E:
   Name: ARI Extended Capability
   0x0: # reg offset

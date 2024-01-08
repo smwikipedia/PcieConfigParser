@@ -143,9 +143,6 @@ def ParseSinglePciPcieCap(capsDB, capId, capOffset):
     if (capId not in capsDB.keys()):
         return
     # If use yaml list, we can't get the cap object so easily as below
-    if (capId != 0x23): # non-DVSEC
-        capObj = capsDB[capId]
-        ParseCapRegisters(capObj, capOffset)
     if (capId == 0x23): # DVSEC
         capObj = capsDB[capId]
         dvsecVendorId = ConfigRead (capOffset + 0x4, 2)
@@ -156,6 +153,17 @@ def ParseSinglePciPcieCap(capsDB, capId, capOffset):
             if (dvsecId in dvsecIds):
                 dvsecObj = capObj[dvsecVendorId][dvsecId]
                 ParseCapRegisters(dvsecObj, capOffset)
+    elif (capId == 0xB): # VSEC
+        capObj = capsDB[capId]
+        vendorId = ConfigRead(0x0, 2)
+        vsecVendorIds = capObj.keys()
+        if (vendorId in vsecVendorIds):
+            # print (f"VSEC found for {capObj[vendorId]['Name']}")
+            # TODO: need some samples in the ExtCaps.yml
+            pass
+    else: # non-DVSEC
+        capObj = capsDB[capId]
+        ParseCapRegisters(capObj, capOffset)
     pass
 
 def ParsePciCap(capsDB):
@@ -196,6 +204,12 @@ def ParsePcieExtendedCap(extCapsDB):
         capName = "Not found in ConfigDB/ExtCaps.yml"
         if (capId in extCapsDB.keys()):
             capName = extCapsDB[capId]["Name"]
+            if (capId == 0xB):
+                capObj = extCapsDB[capId]
+                vendorId = ConfigRead(0x0, 2)
+                vsecVendorIds = capObj.keys()
+                if (vendorId in vsecVendorIds):
+                    capName = capName + " for " + capObj[vendorId]['Name']
         print(f"  {hex(capId).upper()[2:]:0>4}h of v{hex(capVer).upper()[2:]} @ {hex(capOffset).upper()[2:]:0>3}h: {capName}")
         ParseSinglePciPcieCap(extCapsDB, capId, capOffset)
         capOffset = GetBitField(data, 20, 31)
