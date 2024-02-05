@@ -106,7 +106,7 @@
       Name: Fit Mode Supported
       HiBit:  15
   0x4:
-    Name: Device Capabilities Register (04h)
+    Name: Device Capabilities (04h)
     Width:  0x4
     0:
       Name: Max_Payload_Size Supported
@@ -138,6 +138,66 @@
     30:
       Name: RsvdP
       HiBit:  31
+  0x8:
+    Name: Device Control
+    Width: 0x2
+  0xA:
+    Name: Device Status
+    Width: 0x2
+  0xC:
+    Name: Link Capabilities
+    Width: 0x4
+  0x10:
+    Name: Link Control
+    Width: 0x2
+  0x12:
+    Name: Link Status
+    Width: 0x2
+  0x14:
+    Name: Slot Capabilities
+    Width: 0x4
+  0x18:
+    Name: Slot Control
+    Width: 0x2
+  0x1A:
+    Name: Slot Status
+    Width: 0x2
+  0x1C:
+    Name: Root Control
+    Width: 0x2
+  0x1E:
+    Name: Root Capabilities
+    Width: 0x2
+  0x20:
+    Name: Root Status
+    Width: 0x4
+  0x24:
+    Name: Device Capabilities 2
+    Width: 0x4
+  0x28:
+    Name: Device Control 2
+    Width: 0x2
+  0x2A:
+    Name: Device Status 2
+    Width: 0x2
+  0x2C:
+    Name: Link Capabilities 2
+    Width: 0x4
+  0x30:
+    Name: Link Control 2
+    Width: 0x2
+  0x32:
+    Name: Link Status 2
+    Width: 0x2
+  0x34:
+    Name: Slot Capabilities 2
+    Width: 0x4
+  0x38:
+    Name: Slot Control 2
+    Width: 0x2
+  0x3A:
+    Name: Slot Status 2
+    Width: 0x2
 0x11:
   Name: MSI-X Capability
   0x0:
